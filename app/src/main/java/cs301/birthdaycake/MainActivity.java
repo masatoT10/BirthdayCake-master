@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
     }
-    public void yooooo(View button) {
+    public void goodbye(View button) {
         Log.i("button", "Goodbye");
     }
 }

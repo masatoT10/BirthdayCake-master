@@ -1,16 +1,17 @@
 package cs301.birthdaycake;
 
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 
-public class CakeController implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
+public class CakeController implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
     private CakeModel cakeModel;
     private CakeView cakeView;
 
-    public CakeController(CakeView initCakeView){
-        cakeView =  initCakeView;
+    public CakeController(CakeView initCakeView) {
+        cakeView = initCakeView;
         cakeModel = cakeView.getCake();
     }
 
@@ -18,10 +19,9 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
     @Override
     public void onClick(View view) {
         Log.d("CakeController", " Button clocked");
-        if (cakeModel.candleLit==false) {
+        if (cakeModel.candleLit == false) {
             cakeModel.candleLit = true;
-         }
-        else {
+        } else {
             cakeModel.candleLit = false;
         }
         cakeView.invalidate();
@@ -31,8 +31,7 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (cakeModel.hasCandle == true) {
             cakeModel.hasCandle = false;
-        }
-        else {
+        } else {
             cakeModel.hasCandle = true;
         }
         cakeView.invalidate();
@@ -52,5 +51,15 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        cakeModel.x = motionEvent.getX();
+        cakeModel.y = motionEvent.getY();
+
+        view.invalidate();
+        return false;
     }
 }

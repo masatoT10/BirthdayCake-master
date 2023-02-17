@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 
 public class CakeView extends SurfaceView {
 
@@ -98,6 +100,23 @@ public class CakeView extends SurfaceView {
 
     }
 
+    public void drawSqaure(Canvas canvas, float x, float y) {
+        Paint red = new Paint();
+        red.setColor(Color.RED);
+        Paint green = new Paint();
+        green.setColor(Color.GREEN);
+
+       int w = 100;
+
+        canvas.drawRect(x - w/2, y - w/2, x, y,  red);
+        canvas.drawRect(x, y, x + w/2, y + w/2, red);
+        canvas.drawRect(x, y - w/2, x+ w/2, y , green);
+        canvas.drawRect(x - w/2, y, x, y + w/2, green);
+    }
+
+
+
+
     /**
      * onDraw is like "paint" in a regular Java program.  While a Canvas is
      * conceptually similar to a Graphics in javax.swing, the implementation has
@@ -136,7 +155,11 @@ public class CakeView extends SurfaceView {
             drawCandle(canvas, cakeLeft + i *(cakeWidth / (secondCake.numCandle + 1))  - candleWidth / 2 , cakeTop);
         }
     }
+
+    drawSqaure(canvas, secondCake.x, secondCake.y);
     }//onDraw
+
+
 
 }//class CakeView
 

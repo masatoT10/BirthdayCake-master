@@ -18,6 +18,7 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint textPaint = new Paint();
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -39,7 +40,7 @@ public class CakeView extends SurfaceView {
     private CakeModel secondCake;
 
     //getter
-    public CakeModel getCake(){
+    public CakeModel getCake() {
         return secondCake;
     }
 
@@ -68,6 +69,8 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(Color.RED);
+        textPaint.setTextSize(70);
 
         setBackgroundColor(Color.WHITE);  //better than black default
         secondCake = new CakeModel();
@@ -81,22 +84,22 @@ public class CakeView extends SurfaceView {
     public void drawCandle(Canvas canvas, float left, float bottom) {
         canvas.drawRect(left, bottom - candleHeight, left + candleWidth, bottom, candlePaint);
 
-        if (secondCake.candleLit == true){
+        if (secondCake.candleLit == true) {
             //draw the outer flame
             float flameCenterX = left + candleWidth / 2;
-        float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius / 3;
-        canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
+            float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius / 3;
+            canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
 
-        //draw the inner flame
-        flameCenterY += outerFlameRadius / 3;
-        canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
+            //draw the inner flame
+            flameCenterY += outerFlameRadius / 3;
+            canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
 
-    }
+        }
 
         //draw the wick
-        float wickLeft = left + candleWidth/2 - wickWidth/2;
+        float wickLeft = left + candleWidth / 2 - wickWidth / 2;
         float wickTop = bottom - wickHeight - candleHeight;
-        canvas.drawRect(wickLeft, wickTop, wickLeft + wickWidth, wickTop + wickHeight , wickPaint);
+        canvas.drawRect(wickLeft, wickTop, wickLeft + wickWidth, wickTop + wickHeight, wickPaint);
 
     }
 
@@ -121,12 +124,11 @@ public class CakeView extends SurfaceView {
      * onDraw is like "paint" in a regular Java program.  While a Canvas is
      * conceptually similar to a Graphics in javax.swing, the implementation has
      * many subtle differences.  Show care and read the documentation.
-     *
+     * <p>
      * This method will draw a birthday cake
      */
     @Override
-    public void onDraw(Canvas canvas)
-    {
+    public void onDraw(Canvas canvas) {
         //top and bottom are used to keep a running tally as we progress down the cake layers
         float top = cakeTop;
         float bottom = cakeTop + frostHeight;
@@ -149,17 +151,24 @@ public class CakeView extends SurfaceView {
         //Then a second cake layer
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
-    if (secondCake.hasCandle == true) {
-        //Now a candle in the center
-        for (int i = 1; i < secondCake.numCandle + 1; i++) {
-            drawCandle(canvas, cakeLeft + i *(cakeWidth / (secondCake.numCandle + 1))  - candleWidth / 2 , cakeTop);
+        if (secondCake.hasCandle == true) {
+            //Now a candle in the center
+            for (int i = 1; i < secondCake.numCandle + 1; i++) {
+                drawCandle(canvas, cakeLeft + i * (cakeWidth / (secondCake.numCandle + 1)) - candleWidth / 2, cakeTop);
+            }
         }
-    }
 
-    drawSqaure(canvas, secondCake.x, secondCake.y);
+        drawTheText(canvas);
+
+
+    drawSqaure(canvas, secondCake.touchX, secondCake.touchY);
     }//onDraw
 
 
+    public void drawTheText(Canvas canvas) {
+
+        canvas.drawText("X:" + secondCake.touchX + "  Y:" + secondCake.touchY, 1300, 600, textPaint);
+    }
 
 }//class CakeView
 

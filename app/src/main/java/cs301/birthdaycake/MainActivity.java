@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         CakeView view = findViewById(R.id.cakeview);
         CakeController controller = new CakeController(view);
 
-        Button blowOutButton = findViewById(R.id.button);
-        blowOutButton.setOnClickListener(controller);
+        Button Extinguish = findViewById(R.id.Extinguish);
+        Extinguish.setOnClickListener(controller);
 
         CompoundButton switch1 = findViewById(R.id.switch4);
         switch1.setOnCheckedChangeListener(controller);

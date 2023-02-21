@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
@@ -135,8 +136,22 @@ public class CakeView extends SurfaceView {
         for (int i = 1; i < secondCake.numCandle + 1; i++) {
             drawCandle(canvas, cakeLeft + i *(cakeWidth / (secondCake.numCandle + 1))  - candleWidth / 2 , cakeTop);
         }
+        balloon(canvas);
     }
     }//onDraw
+
+    public void balloon (Canvas canvas) {
+        Paint blue = new Paint ();
+
+        blue.setColor(Color.BLUE);
+        RectF rect = new RectF(secondCake.x, secondCake.y, secondCake.x+100,secondCake.y+150);
+
+
+        canvas.drawOval(rect, blue);
+        canvas.drawLine(secondCake.x(float)+100,secondCake.y+150, secondCake.x+150,secondCake.y+200);
+
+    }
+
 
 }//class CakeView
 

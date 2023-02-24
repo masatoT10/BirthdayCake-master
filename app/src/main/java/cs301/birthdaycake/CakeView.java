@@ -1,5 +1,6 @@
 package cs301.birthdaycake;
 
+import android.app.Notification;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +19,9 @@ public class CakeView extends SurfaceView {
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
 
+    Paint balloonPaint = new Paint();
+    Paint Black = new Paint();
+
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
         and adapting to different tablets' screen sizes and resolutions.  I've deliberately
@@ -35,6 +39,8 @@ public class CakeView extends SurfaceView {
     public static final float outerFlameRadius = 30.0f;
     public static final float innerFlameRadius = 15.0f;
 
+
+
     private CakeModel secondCake;
 
     //getter
@@ -51,7 +57,7 @@ public class CakeView extends SurfaceView {
     public CakeView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        //This is essential or your onDraw method won't get called
+        //This is essential or your onDraw method won't get called4
         setWillNotDraw(false);
 
         //Setup our palette
@@ -67,6 +73,14 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+
+
+        balloonPaint.setColor(Color.BLUE);
+
+        balloonPaint.setStyle(Paint.Style.FILL);
+
+        Black.setColor(Color.BLACK);
+
 
         setBackgroundColor(Color.WHITE);  //better than black default
         secondCake = new CakeModel();
@@ -107,8 +121,7 @@ public class CakeView extends SurfaceView {
      * This method will draw a birthday cake
      */
     @Override
-    public void onDraw(Canvas canvas)
-    {
+    public void onDraw(Canvas canvas) {
         //top and bottom are used to keep a running tally as we progress down the cake layers
         float top = cakeTop;
         float bottom = cakeTop + frostHeight;
@@ -131,27 +144,22 @@ public class CakeView extends SurfaceView {
         //Then a second cake layer
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
-    if (secondCake.hasCandle == true) {
-        //Now a candle in the center
-        for (int i = 1; i < secondCake.numCandle + 1; i++) {
-            drawCandle(canvas, cakeLeft + i *(cakeWidth / (secondCake.numCandle + 1))  - candleWidth / 2 , cakeTop);
+        if (secondCake.hasCandle == true) {
+            //Now a candle in the center
+            for (int i = 1; i < secondCake.numCandle + 1; i++) {
+                drawCandle(canvas, cakeLeft + i * (cakeWidth / (secondCake.numCandle + 1)) - candleWidth / 2, cakeTop);
+            }
+
         }
-        balloon(canvas);
-    }
-    }//onDraw
+        if (secondCake.hasTouched) {
+            float ballH = 200.0f;
+            float ballW = 130.0f;
+            canvas.drawRect(secondCake.touchX + ballW / 2 - 50, secondCake.touchY + ballH - 5, secondCake.touchX + ballW / 2 - 15, secondCake.touchY + ballH + 200, Black);
+            canvas.drawOval(secondCake.touchX - ballW / 2, secondCake.touchY - ballH / 2, secondCake.touchX + ballW, secondCake.touchY + ballH, balloonPaint);
 
-    public void balloon (Canvas canvas) {
-        Paint blue = new Paint ();
-
-        blue.setColor(Color.BLUE);
-        RectF rect = new RectF(secondCake.x, secondCake.y, secondCake.x+100,secondCake.y+150);
-
-
-        canvas.drawOval(rect, blue);
-        canvas.drawLine(secondCake.x(float)+100,secondCake.y+150, secondCake.x+150,secondCake.y+200);
+        }
+        //onDraw
 
     }
-
-
 }//class CakeView
 

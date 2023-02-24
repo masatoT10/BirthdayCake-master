@@ -11,8 +11,8 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
     private CakeModel cakeModel;
     private CakeView cakeView;
 
-    public CakeController(CakeView initCakeView){
-        cakeView =  initCakeView;
+    public CakeController(CakeView initCakeView) {
+        cakeView = initCakeView;
         cakeModel = cakeView.getCake();
     }
 
@@ -20,10 +20,9 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
     @Override
     public void onClick(View view) {
         Log.d("CakeController", " Button clocked");
-        if (cakeModel.candleLit==false) {
+        if (cakeModel.candleLit == false) {
             cakeModel.candleLit = true;
-         }
-        else {
+        } else {
             cakeModel.candleLit = false;
         }
         cakeView.invalidate();
@@ -33,8 +32,7 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (cakeModel.hasCandle == true) {
             cakeModel.hasCandle = false;
-        }
-        else {
+        } else {
             cakeModel.hasCandle = true;
         }
         cakeView.invalidate();
@@ -58,15 +56,16 @@ public class CakeController implements View.OnClickListener, CompoundButton.OnCh
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-            Log.d("cc", "cake clicked");
-            cakeModel.touchX = motionEvent.getX();
-            cakeModel.touchY = motionEvent.getY();
-            addBalloon(cakeModel.touchX,cakeModel.touchY);
-            addRect(motionEvent.getX(), motionEvent.getY());
-            return false;
+        //Get XY Coordinates
+        cakeModel.touchX = motionEvent.getX();
+        cakeModel.touchY = motionEvent.getY();
+        addBalloon(cakeModel.touchX,cakeModel.touchY);
+        addRect(motionEvent.getX(), motionEvent.getY());
 
+        //Reset after finished
+        cakeView.invalidate();
+        return true;
     }
-
     private void addRect(float x, float y) {
         cakeModel.touchX=x;
         cakeModel.touchY = y;

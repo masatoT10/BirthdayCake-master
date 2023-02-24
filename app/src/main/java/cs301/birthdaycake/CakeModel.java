@@ -8,6 +8,8 @@ public class CakeModel {
      public int numCandle = 2;
     private boolean frosting = true;
     boolean hasCandle = true;
+    public float touchX;
+    public float touchY;
 
     public float h = 200.f;
     public float w = 130.0f;

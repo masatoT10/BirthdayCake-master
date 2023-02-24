@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 
 public class CakeView extends SurfaceView {
 
@@ -18,6 +20,7 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint textPaint = new Paint();
 
     Paint balloonPaint = new Paint();
     Paint Black = new Paint();
@@ -44,7 +47,7 @@ public class CakeView extends SurfaceView {
     private CakeModel secondCake;
 
     //getter
-    public CakeModel getCake(){
+    public CakeModel getCake() {
         return secondCake;
     }
 
@@ -73,6 +76,8 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(Color.RED);
+        textPaint.setTextSize(70);
 
 
         balloonPaint.setColor(Color.BLUE);
@@ -94,30 +99,47 @@ public class CakeView extends SurfaceView {
     public void drawCandle(Canvas canvas, float left, float bottom) {
         canvas.drawRect(left, bottom - candleHeight, left + candleWidth, bottom, candlePaint);
 
-        if (secondCake.candleLit == true){
+        if (secondCake.candleLit == true) {
             //draw the outer flame
             float flameCenterX = left + candleWidth / 2;
-        float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius / 3;
-        canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
+            float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius / 3;
+            canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
 
-        //draw the inner flame
-        flameCenterY += outerFlameRadius / 3;
-        canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
+            //draw the inner flame
+            flameCenterY += outerFlameRadius / 3;
+            canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
 
-    }
+        }
 
         //draw the wick
-        float wickLeft = left + candleWidth/2 - wickWidth/2;
+        float wickLeft = left + candleWidth / 2 - wickWidth / 2;
         float wickTop = bottom - wickHeight - candleHeight;
-        canvas.drawRect(wickLeft, wickTop, wickLeft + wickWidth, wickTop + wickHeight , wickPaint);
+        canvas.drawRect(wickLeft, wickTop, wickLeft + wickWidth, wickTop + wickHeight, wickPaint);
 
     }
+
+    public void drawSqaure(Canvas canvas, float x, float y) {
+        Paint red = new Paint();
+        red.setColor(Color.RED);
+        Paint green = new Paint();
+        green.setColor(Color.GREEN);
+
+       int w = 100;
+
+        canvas.drawRect(x - w/2, y - w/2, x, y,  red);
+        canvas.drawRect(x, y, x + w/2, y + w/2, red);
+        canvas.drawRect(x, y - w/2, x+ w/2, y , green);
+        canvas.drawRect(x - w/2, y, x, y + w/2, green);
+    }
+
+
+
 
     /**
      * onDraw is like "paint" in a regular Java program.  While a Canvas is
      * conceptually similar to a Graphics in javax.swing, the implementation has
      * many subtle differences.  Show care and read the documentation.
-     *
+     * <p>
      * This method will draw a birthday cake
      */
     @Override
@@ -149,7 +171,6 @@ public class CakeView extends SurfaceView {
             for (int i = 1; i < secondCake.numCandle + 1; i++) {
                 drawCandle(canvas, cakeLeft + i * (cakeWidth / (secondCake.numCandle + 1)) - candleWidth / 2, cakeTop);
             }
-
         }
         if (secondCake.hasTouched) {
             float ballH = 200.0f;
@@ -158,8 +179,17 @@ public class CakeView extends SurfaceView {
             canvas.drawOval(secondCake.touchX - ballW / 2, secondCake.touchY - ballH / 2, secondCake.touchX + ballW, secondCake.touchY + ballH, balloonPaint);
 
         }
-        //onDraw
+        drawTheText(canvas);
 
+
+    drawSqaure(canvas, secondCake.touchX, secondCake.touchY);
+    }//onDraw
+
+
+    public void drawTheText(Canvas canvas) {
+
+        canvas.drawText("X:" + secondCake.touchX + "  Y:" + secondCake.touchY, 1300, 600, textPaint);
     }
+
 }//class CakeView
 

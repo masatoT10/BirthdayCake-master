@@ -1,4 +1,5 @@
 package cs301.birthdaycake;
+
 import android.view.View;
 import android.util.Log;
 
@@ -32,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
         view.setOnTouchListener(controller);
     }
+
+
     public void goodbye(View button) {
+
         Log.i("button", "Goodbye");
+        finishAffinity();
     }
 }
